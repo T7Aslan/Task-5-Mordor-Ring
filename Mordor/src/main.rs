@@ -52,7 +52,7 @@ impl RingBuffer {
         Ok(()) // Возвращаем успешный результат
     }
 
-    // 2.6. Чтение элемента
+    // 6. Чтение элемента
     pub fn pop(&mut self) -> Option<u8> {
         if self.is_empty() {
             return None; // Возвращаем None если пуст
@@ -64,7 +64,7 @@ impl RingBuffer {
         value // Возвращаем значение
     }
 
-    // 2.7. Запись нескольких элементов
+    // 7. Запись нескольких элементов
     pub fn extend(&mut self, data: &[u8]) -> usize {
         let mut count = 0;
         for &byte in data {
@@ -77,7 +77,7 @@ impl RingBuffer {
         count // Возвращаем количество добавленных
     }
 
-    // 2.8. Чтение нескольких элементов
+    // 8. Чтение нескольких элементов
     pub fn drain(&mut self, count: usize) -> Vec<u8> {
         let mut result = Vec::new();
         for _ in 0..count {
@@ -91,7 +91,7 @@ impl RingBuffer {
     }
 }
 
-// 3. Модуль тестирования
+//  Модуль тестирования
 #[cfg(test)]
 mod tests {
     use super::RingBuffer;
@@ -178,4 +178,27 @@ fn main() {
     while let Some(value) = buffer.pop() {
         println!("Прочитанны!: {}", value);
     }
+
+    let mut buffer = RingBuffer::new(3);
+   let written = buffer.extend("ab" .as_bytes());
+println!("Записано значений: {}", written); // 2
+
+
+
+let written = buffer.extend("cd".as_bytes());
+println!("Записано значений: {}", written); // 1
+
+let val = buffer.pop();
+println!("Убрано первое входное значение : {:?}", val); 
+
+buffer.push('e' as u8).unwrap(); 
+println!("Вписанное новое значение на место первого входного значения : {:?}", buffer);
+
+let values = buffer.drain(2);
+println!("Прочитано элементов задаётся после .drain: {:?}", values);
+
+let values = buffer.drain(2);
+println!("Прочитано: {:?}", values); 
+
 }
+
